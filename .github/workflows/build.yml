@@ -9,6 +9,7 @@ on:
   repository_dispatch:
     types: 
         - webhook
+  workflow_dispatch:
 jobs:
   build_apk:
     name: APK
