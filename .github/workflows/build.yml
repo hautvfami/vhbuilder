@@ -4,6 +4,8 @@ env:
   FLUTTER_VERSION: "stable"
   FLUTTER_SDK: "2.5.2"
   BUILD_DIR: "./mobile_app"
+  BUILD_BRANCH: "build_branch"
+  ENV: "dev"
   
 on:
   repository_dispatch:
@@ -39,17 +41,23 @@ jobs:
       - name: Code gen
         run: cd ${{ env.BUILD_DIR }} ; flutter pub run build_runner build
       - name: Build APK
-        run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_dev.dart --release --flavor dev
+        run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_${{ env.ENV }}.dart --release --flavor ${{ env.ENV }}
       # Deploy
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.BUILD_DIR }}/build/app/outputs/flutter-apk/app-dev-release.apk
-          tag: branch_name
+          file: ${{ env.BUILD_DIR }}/build/app/outputs/flutter-apk/app-${{ env.ENV }}-release.apk
+          tag: ${{ env.BUILD_BRANCH }}
           overwrite: true
           file_glob: true
           body: Build for branch
+      - name: Send to Telegram
+        run: |
+          echo "https://github.com/hautvfami/vhbuilder/releases/download/${{ env.BUILD_BRANCH }}/app-${{ env.ENV }}-release.apk" >> $URL
+          echo "https://api.qrserver.com/v1/create-qr-code/?data=${{env.URL}}&size=150x150" >> $QR
+          curl --location --request GET 'https://api.telegram.org/bot${{secrets.BOT_TOKEN}}/sendMessage?chat_id=${{ secrets.CHAT_ID }}&parse_mode=markdown&text=${{ env.BUILD_BRANCH}} ${{env.ENV}}%0D%0A%0D%0AApp apk is ready at link below%0D%0A${{ env.URL }}%0D%0A%0D%0A[](${{ env.QR }})
+        
 
 #       - name: Deploy to artifact
 #         uses: actions/upload-artifact@v2
