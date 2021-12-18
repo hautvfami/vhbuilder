@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: TEST Env
-      run: |
-        echo "URL=Hello Hau" >> $GITHUB_ENV
-        echo "${{ env.URL }}"
+      run: echo "URL=Hello Hau" >> $GITHUB_ENV
+    
+    - name: TEST Env
+      run: echo ${{ env.URL }}
