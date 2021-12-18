@@ -30,7 +30,7 @@ jobs:
           eval $(ssh-agent -s) ; mkdir -p ~/.ssh ; chmod 700 ~/.ssh
           ssh-add <(echo "${{ secrets.PRIVATE }}")
           ssh-keyscan -H 'github.com' >> ~/.ssh/known_hosts
-          cat ~/.ssh/*
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           echo "machine gitlab.com login ${{ secrets.TOKEN_NAME }} password ${{ secrets.TOKEN_KEY }}" > ~/.netrc
 
       # This steps build app
