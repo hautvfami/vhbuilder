@@ -13,7 +13,7 @@ on:
 jobs:
   build_apk:
     name: APK
-    runs-on: cirrusci/flutter:${{ env.FLUTTER_SDK }}
+    runs-on: cirrusci/flutter:2.5.2
     steps:
       - uses: actions/checkout@v2
 
