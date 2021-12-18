@@ -10,5 +10,5 @@ jobs:
     steps:
     - name: TEST Env
       run: |
-        export URL="Hello Hau"
+        echo "URL=Hello Hau" >> $GITHUB_ENV
         echo ${{ env.URL }}
