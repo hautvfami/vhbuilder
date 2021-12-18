@@ -41,13 +41,23 @@ jobs:
       - name: Build APK
         run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_dev.dart --release --flavor dev
       # Deploy
-      - name: Deploy to artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: apk
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.BUILD_DIR }}/build/app/outputs/flutter-apk/app-dev-release.apk
+          tag: branch_name
+          overwrite: true
           file_glob: true
-          path: ${{ env.BUILD_DIR }}/build/app/outputs/flutter-apk/app-dev-release.apk
-          retention-days: 5
+          body: Build for branch
+
+#       - name: Deploy to artifact
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: apk
+#           file_glob: true
+#           path: ${{ env.BUILD_DIR }}/build/app/outputs/flutter-apk/app-dev-release.apk
+#           retention-days: 5
 
       # This step reads a file from repo and use it for body of the release
       # This works on any self-hosted runner OS
