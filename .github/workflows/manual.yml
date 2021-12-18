@@ -11,4 +11,4 @@ jobs:
     - name: TEST Env
       run: |
         export URL="Hello Hau"
-        echo ${{ URL }}
+        echo ${{ env.URL }}
