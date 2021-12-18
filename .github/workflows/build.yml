@@ -39,7 +39,7 @@ jobs:
       - name: Code gen
         run: cd ${{ env.BUILD_DIR }} ; flutter pub run build_runner build
       - name: Build APK
-        run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_dev.dart --release
+        run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_dev.dart --release --flavor dev
       # Deploy
       - name: Deploy to artifact
         uses: actions/upload-artifact@v2
