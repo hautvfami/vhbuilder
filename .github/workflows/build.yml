@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_KEY }}
 
       # This steps installing flutter
       - name: Installing Flutter
@@ -26,11 +29,6 @@ jobs:
         run: flutter doctor
       - name: Setting action
         run: |
-          which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
-          eval $(ssh-agent -s) ; mkdir -p ~/.ssh ; chmod 700 ~/.ssh
-          ssh-add <(echo "${{ secrets.PRIVATE }}")
-          ssh-keyscan -H 'github.com' >> ~/.ssh/known_hosts
-          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           echo "machine gitlab.com login ${{ secrets.TOKEN_NAME }} password ${{ secrets.TOKEN_KEY }}" > ~/.netrc
 
       # This steps build app
