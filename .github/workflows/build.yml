@@ -18,30 +18,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      # Authentication
       - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+      - name: Setting action
+        run: echo "machine gitlab.com login ${{ secrets.TOKEN_NAME }} password ${{ secrets.TOKEN_KEY }}" > ~/.netrc
 
-      # This steps installing flutter
+      # Install flutter sdk
       - name: Installing Flutter
         uses: britannio/action-install-flutter@v1.0
         with:
           version: ${{ env.FLUTTER_SDK }}
       - name: Flutter doctor
         run: flutter doctor
-      - name: Setting action
-        run: |
-          echo "machine gitlab.com login ${{ secrets.TOKEN_NAME }} password ${{ secrets.TOKEN_KEY }}" > ~/.netrc
 
-      # This steps build app
+      # Fetch source code
       - name: Clone
         run: git clone ${{ secrets.REPO }} ${{ env.BUILD_DIR }}
+        
+      # Run flutter
       - name: Installing dependencies
         run: cd ${{ env.BUILD_DIR }} ; flutter pub get
-      - name: Code gen
+      - name: Generate code
         run: cd ${{ env.BUILD_DIR }} ; flutter pub run build_runner build
       - name: Build APK
         run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_${{ env.ENV }}.dart --release --flavor ${{ env.ENV }}
+        
       # Deploy
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
@@ -53,7 +57,7 @@ jobs:
           file_glob: true
           body: Build for branch
           
-      # Message
+      # Message notify
       - name: Gen URL
         run: echo "URL=https://github.com/hautvfami/vhbuilder/releases/download/${{ env.BUILD_BRANCH }}/app-${{ env.ENV }}-release.apk" >> $GITHUB_ENV
       - name: Gen QR
