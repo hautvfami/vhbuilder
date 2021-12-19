@@ -87,7 +87,7 @@ jobs:
             Build success | env: ${{env.ENV}} - branch: ${{ env.BUILD_BRANCH}}
             ${{ env.VER }} ${{ env.MESSAGE }}
             
-            [Install APK](https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk)
+            [Install APK](${{ env.URL }})
             From VH with love :coffee:
           photo: qr.png
           
