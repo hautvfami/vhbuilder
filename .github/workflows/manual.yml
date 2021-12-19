@@ -4,9 +4,9 @@ name: Test workflow
 # or API.
 on:
   workflow_dispatch:
-#   repository_dispatch:
-#     types: 
-#         - webhook
+  repository_dispatch:
+    types: 
+        - webhook_test
 jobs:
   greet:
     runs-on: ubuntu-latest
