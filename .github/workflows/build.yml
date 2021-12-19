@@ -37,6 +37,13 @@ jobs:
           ssh-private-key: ${{ secrets.PRIVATE_KEY }}
       - name: Setting action
         run: echo "machine gitlab.com login ${{ secrets.TOKEN_NAME }} password ${{ secrets.TOKEN_KEY }}" > ~/.netrc
+      
+      # Fetch source code
+      - name: Clone
+        run: git clone -b ${{ env.BUILD_BRANCH }} --single-branch ${{ secrets.REPO }} ${{ env.BUILD_DIR }}
+      # Get version
+      - name: Get versions
+        run: echo "VER=$( sed '18!d' ${{ env.BUILD_DIR }}/pubspec.yaml)" >> $GITHUB_ENV
 
       # Install flutter sdk
       - name: Installing Flutter
@@ -45,14 +52,6 @@ jobs:
           version: ${{ env.FLUTTER_SDK }}
       - name: Flutter doctor
         run: flutter doctor
-
-      # Fetch source code
-      - name: Clone
-        run: git clone -b ${{ env.BUILD_BRANCH }} --single-branch ${{ secrets.REPO }} ${{ env.BUILD_DIR }}
-          
-      # Get version
-      - name: Get versions
-        run: echo "VER={{sed '18!d' ${{ env.BUILD_DIR }}/pubspec.yaml}}" >> $GITHUB_ENV
         
       # Run flutter
       - name: Installing dependencies
