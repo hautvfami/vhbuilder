@@ -13,6 +13,8 @@ jobs:
     
     - name: TEST Env
       run: echo ${{ env.URL }}
+    - name: QR
+      run: wget -O qr.png https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk&size=150x150
     - name: Push to Telegram
       uses: appleboy/telegram-action@master
       with:
@@ -21,7 +23,7 @@ jobs:
         message: |
           Build success
           Install URL: https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk
-        photo: https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk&size=150x150
+        photo: qr.png
 #     - name: Push
 #       run: |
 #         echo 'URL=https://github.com/hautvfami/vhbuilder/releases/download/build-branch/app-dev-release.apk' >> $GITHUB_ENV
