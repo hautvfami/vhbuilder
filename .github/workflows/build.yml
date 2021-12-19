@@ -18,6 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+#       ${{ github.event.client_payload.branch }}
+#       ${{ github.event.client_payload.env }}
+      - name: Set environment
+        if: ${{ github.event.action == 'webhook' }}
+        run: |
+          echo "BUILD_BRANCH=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
+          echo "ENV=${{ github.event.client_payload.env }}" >> $GITHUB_ENV
+      - name: Double check branch-env
+        run: echo "Current build on ${{env.BUILD_BRANCH}} ${{env.ENV}}"
       
       # Authentication
       - uses: webfactory/ssh-agent@v0.5.4
