@@ -4,9 +4,9 @@ name: Test workflow
 # or API.
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types: 
-        - webhook
+#   repository_dispatch:
+#     types: 
+#         - webhook
 jobs:
   greet:
     runs-on: ubuntu-latest
@@ -16,8 +16,8 @@ jobs:
     
     - name: TEST Env
       run: echo ${{ env.URL }}
-    - name: Test github event
-      run: echo ${{ github.event.client_payload.unit }}
+#     - name: Test github event
+#       run: echo ${{ github.event.client_payload.unit }}
       
       # Push to Tele
 #     - name: QR
