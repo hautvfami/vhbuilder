@@ -15,6 +15,6 @@ jobs:
       run: echo ${{ env.URL }}
     - name: Push
       run: |
-        echo 'URL=https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk' >> $GITHUB_ENV
-        echo 'QR=https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk&size=150x150)' >> $GITHUB_ENV
-        curl --location --request GET 'https://api.telegram.org/bot5096122698:AAHwz7aBTIy-dzAGex_EeUPJeBluXXeWbZY/sendMessage?chat_id=-656569490&parse_mode=markdown&text=build_branch dev%0D%0A%0D%0AApp apk is ready at link below%0D%0A${{env.URL}}%0D%0A%0D%0A[](${{env.QR}})'
+        echo 'URL=https://github.com/hautvfami/vhbuilder/releases/download/build-branch/app-dev-release.apk' >> $GITHUB_ENV
+        echo 'QR=https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/hautvfami/vhbuilder/releases/download/build-branch/app-dev-release.apk&size=150x150)' >> $GITHUB_ENV
+        curl --location --request GET 'https://api.telegram.org/bot5096122698:AAHwz7aBTIy-dzAGex_EeUPJeBluXXeWbZY/sendMessage?chat_id=-656569490&parse_mode=markdown&text=build-branch dev%0D%0A%0D%0AApp apk is ready at link below%0D%0A${{env.URL}}%0D%0A%0D%0A[](${{env.QR}})'
