@@ -6,6 +6,7 @@ env:
   BUILD_DIR: "./mobile_app"
   BUILD_BRANCH: "master"
   ENV: "dev"
+  MESSAGE: ""
   
 on:
   repository_dispatch:
@@ -25,6 +26,7 @@ jobs:
         run: |
           echo "BUILD_BRANCH=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
           echo "ENV=${{ github.event.client_payload.env }}" >> $GITHUB_ENV
+          echo "MESSAGE=${{ github.event.client_payload.message }}" >> $GITHUB_ENV
       - name: Double check branch-env
         run: echo "Current build on ${{env.BUILD_BRANCH}} ${{env.ENV}}"
       
@@ -79,6 +81,7 @@ jobs:
           format: markdown
           message: |
             Build success | Branch: ${{ env.BUILD_BRANCH}} - Env: ${{env.ENV}}
+            ${{ env.MESSAGE }}
             
             [Install APK](https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk)
             From VH with love :coffee:
