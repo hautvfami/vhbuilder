@@ -22,9 +22,10 @@ jobs:
         token: ${{ secrets.BOT_TOKEN }}
         format: markdown
         message: |
-          # Build success
-          
+          #Build success             
+          master - dev
           [Install APK](https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk)
+          
         photo: qr.png
 #     - name: Push
 #       run: |
