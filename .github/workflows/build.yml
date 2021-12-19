@@ -1,5 +1,5 @@
 name: CI
-# Config env
+# Config env / BUILD_BRANCH & ENV receive from webhook
 env:
   FLUTTER_VERSION: "stable"
   FLUTTER_SDK: "2.5.2"
@@ -36,7 +36,7 @@ jobs:
 
       # Fetch source code
       - name: Clone
-        run: git clone ${{ secrets.REPO }} ${{ env.BUILD_DIR }}
+        run: git clone -b ${{ env.BUILD_BRANCH }} --single-branch ${{ secrets.REPO }} ${{ env.BUILD_DIR }}
         
       # Run flutter
       - name: Installing dependencies
@@ -61,12 +61,19 @@ jobs:
       - name: Gen URL
         run: echo "URL=https://github.com/hautvfami/vhbuilder/releases/download/${{ env.BUILD_BRANCH }}/app-${{ env.ENV }}-release.apk" >> $GITHUB_ENV
       - name: Gen QR
-        run: echo "QR=https://api.qrserver.com/v1/create-qr-code/?data=${{env.URL}}&size=150x150" >> $GITHUB_ENV
-      - name: Gen Message
-        run: echo "MESSAGE=${{ env.BUILD_BRANCH}} ${{env.ENV}}%0D%0A%0D%0AAPK%0D%0A${{ env.URL }}%0D%0A%0D%0A[](${{ env.QR }})" >> $GITHUB_ENV
-      - name: Send to Telegram
-        run: curl --location --request GET 'https://api.telegram.org/bot${{secrets.BOT_TOKEN}}/sendMessage?chat_id=${{ secrets.CHAT_ID }}&parse_mode=markdown&text=${{ env.MESSAGE }}'
-        
+        run: wget -O qr.png https://api.qrserver.com/v1/create-qr-code/?data=${{env.URL}}&size=100x100
+      - name: Push to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.CHAT_ID }}
+          token: ${{ secrets.BOT_TOKEN }}
+          format: markdown
+          message: |
+            Build success | Branch: ${{ env.BUILD_BRANCH}} - Env: ${{env.ENV}}
+            
+            [Install APK](https://github.com/hautvfami/vhbuilder/releases/download/build_branch/app-dev-release.apk)
+            From VH with love :coffee:
+          photo: qr.png
 
 #       - name: Deploy to artifact
 #         uses: actions/upload-artifact@v2
