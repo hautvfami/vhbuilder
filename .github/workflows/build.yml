@@ -49,6 +49,10 @@ jobs:
       # Fetch source code
       - name: Clone
         run: git clone -b ${{ env.BUILD_BRANCH }} --single-branch ${{ secrets.REPO }} ${{ env.BUILD_DIR }}
+          
+      # Get version
+      - name: Get versions
+        run: echo "VER={{sed '18!d' ${{ env.BUILD_DIR }}/pubspec.yaml}}" >> $GITHUB_ENV
         
       # Run flutter
       - name: Installing dependencies
@@ -68,10 +72,6 @@ jobs:
           overwrite: true
           file_glob: true
           body: Build for branch
-          
-      # Get version
-      - name: Get versions
-        run: echo "VER={{sed '18!d' ${{ env.BUILD_DIR }}/pubspec.yaml}}" >> $GITHUB_ENV
         
       # Message notify
       - name: Gen URL
