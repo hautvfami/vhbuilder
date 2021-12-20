@@ -84,10 +84,11 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           format: markdown
           message: |
-            Build success | env: ${{env.ENV}} - branch: ${{ env.BUILD_BRANCH}}
-            ${{ env.VER }} ${{ env.MESSAGE }}
+            Build success
+            env: ${{env.ENV}} - branch: ${{ env.BUILD_BRANCH}}
+            ${{ env.MESSAGE }}
             
-            [Install APK](${{ env.URL }})
+            [Install APK](${{ env.URL }}) - ${{ env.VER }}
             From VH with love :coffee:
           photo: qr.png
           
@@ -98,8 +99,10 @@ jobs:
           to: ${{ secrets.CHAT_ID }}
           token: ${{ secrets.BOT_TOKEN }}
           message: |
-            Build fail
+            Build failure
             ${{ env.MESSAGE }}
+
+            [View Log](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
 
 #       - name: Deploy to artifact
 #         uses: actions/upload-artifact@v2
