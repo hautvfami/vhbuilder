@@ -16,8 +16,9 @@ jobs:
     
     - name: TEST Env
       run: echo ${{ env.URL }}
-#     - name: Test github event
-#       run: echo ${{ github.event.client_payload.unit }}
+      
+    - name: Test github event trigger
+      run: echo ${{ github.event.client_payload }}
       
       # Push to Tele
 #     - name: QR
