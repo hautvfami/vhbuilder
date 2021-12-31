@@ -59,7 +59,7 @@ jobs:
       - name: Generate code
         run: cd ${{ env.BUILD_DIR }} ; flutter pub run build_runner build
       - name: Build APK
-        run: cd ${{ env.BUILD_DIR }} ; flutter build apk -t ./lib/main_${{ env.ENV }}.dart --release --flavor ${{ env.ENV }}
+        run: cd ${{ env.BUILD_DIR }} ; flutter build apk --dart-define=flavor=${{ env.ENV }} --flavor ${{ env.ENV }} --release
         
       # Deploy
       - name: Upload binaries to release
