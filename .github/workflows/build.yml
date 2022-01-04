@@ -2,7 +2,7 @@ name: CI
 # Config env / BUILD_BRANCH & ENV receive from webhook
 env:
   FLUTTER_VERSION: "stable"
-  FLUTTER_SDK: "2.5.2"
+  FLUTTER_SDK: "2.8.1"
   BUILD_DIR: "./mobile_app"
   BUILD_BRANCH: "master"
   ENV: "dev"
