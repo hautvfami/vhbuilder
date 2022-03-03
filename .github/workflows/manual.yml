@@ -9,7 +9,7 @@ on:
         - webhook_test
 jobs:
   greet:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - name: TEST Env
       run: echo "URL=Hello Hau" >> $GITHUB_ENV
